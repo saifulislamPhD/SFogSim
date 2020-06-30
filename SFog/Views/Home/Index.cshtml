@@ -1,0 +1,622 @@
+﻿@{ ViewBag.Title = "Index"; }
+
+
+<link href="~/Content/Site.css" rel="stylesheet" />
+
+<style type="text/css">
+	.simple-form input.ng-invalid.ng-touched {
+		border-color: #FA787E;
+	}
+
+	.error {
+		padding: 5px;
+		color: red;
+	}
+
+	.padding-5 {
+		padding: 5px;
+	}
+
+	.padding {
+		padding: 0px;
+	}
+
+	.simple-form select.ng-invalid.ng-touched {
+		border-color: #FA787E;
+	}
+
+	.ng-disabled {
+		background-color: darkgray;
+	}
+
+	tr td input {
+		margin: 5px 0 0 0;
+		float: left;
+	}
+
+	.tabsdemoDynamicHeight md-content {
+		background-color: transparent !important;
+	}
+
+		.tabsdemoDynamicHeight md-content md-tabs {
+			background: #f6f6f6;
+			border: 1px solid #e1e1e1;
+		}
+
+			.tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
+				background: white;
+			}
+
+		.tabsdemoDynamicHeight md-content h1:first-child {
+			margin-top: 0;
+		}
+
+	html[dir="rtl"] .bidi {
+		padding-right: 20px;
+		padding-left: 0;
+	}
+</style>
+<div ng-controller="SFogController as vm" ng-cloak style="margin-top:7px; width:100%;font-size:12px !important">
+	<md-content>
+		<md-tabs md-dynamic-height md-border-bottom>
+			<md-tab label="Fog">
+				<md-content class="md-padding">
+					<div layout="row">
+						<div flex="20">
+							<table>
+								<tr>
+									<td>
+										<form novalidate class="simple-form" name="fogForm">
+											<h3>Fog Server</h3>
+											<md-radio-group ng-model="ctrl.FogType" ng-init="ctrl.FogType = 1">
+												<md-radio-button value="0">Homogenious Fog</md-radio-button>
+												<md-radio-button value="1">Hetrogenious Fog</md-radio-button>
+											</md-radio-group>
+											<table>
+												<tr>
+													<td><input type="text" ng-model="vm.FogServer.FogDevice.Name" placeholder="Name" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.FogServer.FogDevice.DownBW" ng-disabled="ctrl.FogType == 1" placeholder="Down Bandwidth" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.FogServer.FogDevice.UpBW" ng-disabled="ctrl.FogType == 1 " placeholder="Up Bandwidth" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.FogServer.FogDevice.MIPS" ng-disabled="ctrl.FogType == 1" placeholder="MIPS" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.FogServer.FogDevice.NumberOfPes" ng-disabled="ctrl.FogType == 1" placeholder="NumberOfPes" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.FogServer.FogDevice.RAM" ng-disabled="ctrl.FogType == 1" placeholder="RAM" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.FogServer.FogDevice.Size" ng-disabled="ctrl.FogType == 1" placeholder="Size" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.FogServer.FogDevice.Storage" ng-disabled="ctrl.FogType == 1 " placeholder="Storage" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.FogServer.FogSize" placeholder="Number Of Fog Devices" required /></td>
+												</tr>
+											</table>
+										</form>
+										<input type="button" ng-click="vm.resetFog()" value="Reset" />
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div flex="20">
+							<table>
+								<tr>
+									<td>
+										<form novalidate class="simple-form" name="TupleForm">
+											<h3>Tuple</h3>
+											<table>
+												<tr>
+													<td><input type="text" ng-model="vm.Tuple.TupleData.Name" placeholder="Name" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.BW" ng-disabled="ctrl.FogType == 1" placeholder="Bandwidth" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.MIPS" ng-disabled="ctrl.FogType == 1" placeholder="MIPS" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.NumberOfPes" ng-disabled="ctrl.FogType == 1" placeholder="Number od Processors" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.TupleDataRAM" ng-disabled="ctrl.FogType == 1" placeholder="RAM" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.Size" ng-disabled="ctrl.FogType == 1" placeholder="Size" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleSize" placeholder="Number Of Tuples" required /></td>
+												</tr>
+												<tr><td style="visibility:hidden"><input ng-model="vm.FCFS" type="text" /></td></tr>
+												<tr><td style="visibility:hidden">sds</td></tr>
+											</table>
+										</form>
+										<input type="button" ng-click="vm.resetTuple()" value="Reset" />
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div flex="20">
+							<h3>Simulation Type</h3>
+							<md-radio-group ng-model="ctrl.animationTypeFog" ng-init="ctrl.animationTypeFog = 1">
+								<md-radio-button value="0">Fog</md-radio-button>
+								<md-radio-button value="1">Fog and Cloud</md-radio-button>
+							</md-radio-group>
+							<br /><br />
+							<h3>Policy Types</h3>
+							<md-radio-group ng-model="vm.PolicyType" ng-init="vm.PolicyType = 0">
+								<md-radio-button value="0">Random</md-radio-button>
+								<md-radio-button value="1">FCFS</md-radio-button>
+								<md-radio-button value="2">SJF</md-radio-button>
+								<md-radio-button value="3">LJF</md-radio-button>
+								<md-radio-button value="4" ng-hide="ctrl.animationTypeFog == 0">LBFC</md-radio-button>
+								<md-radio-button value="5">In Memory Allocation (Testing)</md-radio-button>
+								<md-radio-button value="6">Multipath Routing (Testing)</md-radio-button>
+								<md-radio-button value="7">Round Robin</md-radio-button>
+							</md-radio-group>
+						</div>
+
+						<div flex="20" ng-show="vm.PolicyType ==7">
+
+							<h3>Round Robin Policy Types</h3>
+							<h4>Gatway Policy Types</h4>
+							<md-radio-group ng-model="vm.GatewayPolicyType" ng-init="vm.GatewayPolicyType = 0">
+								<md-radio-button value="0">Non Agent Based</md-radio-button>
+								<md-radio-button value="1">Agent Based</md-radio-button>
+
+							</md-radio-group>
+							<h4>Node Level Policy Types</h4>
+							<md-radio-group ng-model="vm.NodelevelPolicyTypes" ng-init="vm.NodelevelPolicyTypes = 0">
+								<md-radio-button value="0">Round Robin</md-radio-button>
+								<md-radio-button value="1">Mean Round Robin</md-radio-button>
+
+							</md-radio-group>
+						</div>
+
+						@*<div flex="20" ng-show="vm.PolicyType == 7">
+
+							<h3>Round Robin Policy Types</h3>
+
+									<div class="panel-heading" role="tab" id="headingpreprequirements">
+										<a data-toggle="collapse" data-parent="#accordion" data-target="#preprequirements" aria-expanded="false" aria-controls="preprequirements">
+											<span class="fa fa-plus"></span>
+											<span >
+												Preparation Requirements
+											</span>
+										</a>
+
+									</div>
+									<div id="preprequirements" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingpreprequirements">
+										<div class="panel-body">
+											<ul>
+												<li>Shoulder preparation not needed, feather-edge preparation OK. Any preparation with at least 0.8 mm of occlusal space is acceptable, though 1.25 mm is ideal.</li>
+											</ul>
+										</div>
+									</div>
+								</div>*@
+
+
+
+
+						<div flex="20" ng-show="ctrl.animationTypeFog == 1">
+							<h3>Services</h3>
+							<md-radio-group ng-model="ctrl.CloufServiceForFog">
+								<md-radio-button value="0">
+									<b>Name: Service 1</b>,<br />
+									CPU: 1,<br />
+									RAM: 8192 MB, <br />
+									Size: 5000 MB,<br />
+									MIPS: 9000,<br />
+									BW: 500
+								</md-radio-button>
+								<md-radio-button value="1">
+									<b>Name: Service 2</b>,<br />
+									CPU: 2,<br />
+									RAM: 16384 MB, <br />
+									Size: 10000 MB,<br />
+									MIPS: 18000,<br />
+									BW: 500
+								</md-radio-button>
+								<md-radio-button value="2">
+									<b>Name: Service 3</b>,<br />
+									CPU: 4,<br />
+									RAM: 32768 MB, <br />
+									Size: 15000 MB,<br />
+									MIPS: 27000,<br />
+									BW: 500
+								</md-radio-button>
+							</md-radio-group>
+						</div>
+						<div flex="20" ng-show="ctrl.animationTypeFog == 1">
+							<h3>DataCenters</h3>
+							<fieldset class="demo-fieldset">
+								<div layout="row" layout-wrap flex>
+									<div flex-xs flex="50">
+										<md-checkbox aria-label="Select All"
+													 ng-checked="isChecked()"
+													 md-indeterminate="isIndeterminate()"
+													 ng-click="toggleAll()">
+											<span ng-if="isChecked()">Un-</span>Select All
+										</md-checkbox>
+									</div>
+									<div class="demo-select-all-checkboxes" flex="100" ng-repeat="item in items">
+										<md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+											{{ item }}
+										</md-checkbox>
+									</div>
+								</div>
+							</fieldset>
+
+							<h3>GateWay</h3>
+							<md-radio-group ng-model="vm.Gateway" ng-init="vm.WithGateway = 0">
+								<md-radio-button value="0">Smart Gateway</md-radio-button>
+								<md-radio-button value="1">Tradiotional</md-radio-button>
+							</md-radio-group>
+
+							<h3>Cooperation</h3>
+							<md-radio-group ng-model="vm.Cooperation" ng-init="vm.WithGateway = 0">
+								<md-radio-button value="0">Cooperation</md-radio-button>
+								<md-radio-button value="1">Without Cooperation</md-radio-button>
+							</md-radio-group>
+						</div>
+					</div>
+					<br />
+					<div layout="row">
+						<div class="col-lg-5 padding">
+							<md-button type="button" style="float:left;" class="md-raised md-primary" ng-click="vm.RunFogSimulationwithData(vm.FogServer, vm.Tuple, vm.PolicyType,vm.GatewayPolicyType,vm.NodelevelPolicyTypes, ctrl.animationTypeFog, ctrl.CloufServiceForFog, selected, vm.Gateway, vm.Cooperation,ctrl.FogType)"
+									   title="Simulate Fog" value="Simulate Fog" ng-disabled="ctrl.DataSet == 1">Simulate Fog</md-button>
+
+							@*<md-button ng-show="vm.PolicyType==6" type="button" style="float:left;" class="md-raised md-primary" ng-click="vm.RunFogSimulationwithData(vm.FogServer, vm.Tuple, vm.PolicyType, ctrl.animationTypeFog, ctrl.CloufServiceForFog, selected, vm.Gateway, vm.Cooperation,ctrl.FogType)"
+								title="Simulate Fog" value="Simulate Fog" ng-disabled="ctrl.DataSet == 1">Enable Routing</md-button>*@
+						</div>
+						<div class="col-lg-6" style="float:right;border:1px solid #dddddd;padding:0px;">
+							<form style="padding: 5px;margin: 5px;">
+								<div class="form-check">
+									<md-radio-group ng-model="ctrl.DataSet" ng-init="ctrl.DataSet = 0">
+										<md-radio-button value="0" class="col-lg-5 padding-5">Load Generated DataSet</md-radio-button>
+										<md-radio-button value="1" class="col-lg-5 padding-5">Generate New DataSet</md-radio-button>
+									</md-radio-group>
+								</div>
+								<button type="submit" class="btn btn-primary" ng-disabled="ctrl.DataSet == 0" ng-click="vm.RunFogCreateData(vm.FogServer, vm.Tuple, vm.PolicyType,vm.GatewayPolicyType,vm.NodelevelPolicyTypes, ctrl.animationTypeFog, ctrl.CloufServiceForFog, selected, vm.Gateway, vm.Cooperation,ctrl.FogType)">Create</button>
+								<div id="floatBarsG" hidden>
+									<div id="floatBarsG_1" class="floatBarsG"></div>
+									<div id="floatBarsG_2" class="floatBarsG"></div>
+									<div id="floatBarsG_3" class="floatBarsG"></div>
+									<div id="floatBarsG_4" class="floatBarsG"></div>
+									<div id="floatBarsG_5" class="floatBarsG"></div>
+									<div id="floatBarsG_6" class="floatBarsG"></div>
+									<div id="floatBarsG_7" class="floatBarsG"></div>
+									<div id="floatBarsG_8" class="floatBarsG"></div>
+								</div>
+							</form>
+							<div id="divError" class="error"></div>
+						</div>
+
+					</div>
+				</md-content>
+			</md-tab>
+			<md-tab label="Cloud">
+				<md-content class="md-padding">
+					<div layout="row">
+						<div>
+							@*    <h3>Cloud</h3>
+								<md-radio-group ng-model="ctrl.openFrom">
+									<table>
+										<tr>
+											<td>
+												<form novalidate class="simple-form" name="cloudForm">
+													<table>
+														<tr>
+															<td><input type="text" ng-model="vm.CloudServer.CloudDevice.Name" placeholder="Name" required /></td>
+														</tr>
+														<tr>
+															<td><input type="number" ng-model="vm.CloudServer.CloudDevice.DownBW" placeholder="Down Bandwidth" required /></td>
+														</tr>
+														<tr>
+															<td><input type="number" ng-model="vm.CloudServer.CloudDevice.UpBW" placeholder="Up Bandwidth" required /></td>
+														</tr>
+														<tr>
+															<td><input type="number" ng-model="vm.CloudServer.CloudDevice.MIPS" placeholder="MIPS" required /></td>
+														</tr>
+														<tr>
+															<td><input type="number" ng-model="vm.CloudServer.CloudDevice.NumberOfPes" placeholder="NumberOfPes" required /></td>
+														</tr>
+														<tr>
+															<td><input type="number" ng-model="vm.CloudServer.CloudDevice.RAM" placeholder="RAM" required /></td>
+														</tr>
+														<tr>
+															<td><input type="number" ng-model="vm.CloudServer.CloudDevice.Size" placeholder="Size" required /></td>
+														</tr>
+														<tr>
+															<td><input type="number" ng-model="vm.CloudServer.CloudDevice.Storage" placeholder="Storage" required /></td>
+														</tr>
+														<tr>
+															<td><input type="number" value="1" ng-model="vm.CloudServer.CloudSize" placeholder="Number Of Fog Devices" required /></td>
+														</tr>
+													</table>
+												</form>
+												<input type="button" ng-click="vm.resetCloud()" value="Reset" />
+											</td>
+										</tr>
+									</table>
+								</md-radio-group>*@
+						</div>
+						<div flex="33">
+							<h3>Tuple</h3>
+							<md-radio-group ng-model="ctrl.TupleType" ng-init="ctrl.TupleType = 0">
+								<md-radio-button value="0">Homogenious Tuple</md-radio-button>
+								<md-radio-button value="1">Hetrogenious Tuple</md-radio-button>
+							</md-radio-group>
+							<table>
+								<tr>
+									<td>
+										<form novalidate class="simple-form" name="TupleForm">
+											<table>
+												<tr>
+													<td><input type="text" ng-model="vm.Tuple.TupleData.Name" placeholder="Name" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.BW" ng-disabled="ctrl.TupleType == 1" placeholder="Bandwidth" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.MIPS" ng-disabled="ctrl.TupleType == 1" placeholder="MIPS" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.NumberOfPes" ng-disabled="ctrl.TupleType == 1" placeholder="Number od Processors" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.TupleDataRAM" ng-disabled="ctrl.TupleType == 1" placeholder="RAM" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.Size" ng-disabled="ctrl.TupleType == 1" placeholder="Size" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleSize" placeholder="Number Of Tuples" required /></td>
+												</tr>
+												<tr><td style="visibility:hidden"><input ng-model="vm.FCFS" type="text" /></td></tr>
+												<tr><td style="visibility:hidden">sds</td></tr>
+											</table>
+										</form>
+										<input type="button" ng-click="vm.resetTuple()" value="Reset" />
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div flex="33">
+							<h3>Services</h3>
+							<md-radio-group ng-model="ctrl.animationType">
+								<md-radio-button value="0">
+									<b>Name: Service 1</b>,<br />
+									CPU: 1,<br />
+									RAM: 8192 MB, <br />
+									Size: 5000 MB,<br />
+									MIPS: 9000,<br />
+									BW: 500
+								</md-radio-button>
+								<md-radio-button value="1">
+									<b>Name: Service 2</b>,<br />
+									CPU: 2,<br />
+									RAM: 16384 MB, <br />
+									Size: 10000 MB,<br />
+									MIPS: 18000,<br />
+									BW: 500
+								</md-radio-button>
+								<md-radio-button value="2">
+									<b>Name: Service 3</b>,<br />
+									CPU: 4,<br />
+									RAM: 32768 MB, <br />
+									Size: 15000 MB,<br />
+									MIPS: 27000,<br />
+									BW: 500
+								</md-radio-button>
+							</md-radio-group>
+							<br /><br />
+							<h3>Policy Types</h3>
+							<md-radio-group ng-model="vm.PolicyType" ng-init="vm.PolicyType = 0">
+								<md-radio-button value="0">Random</md-radio-button>
+								<md-radio-button value="1">FCFS</md-radio-button>
+								<md-radio-button value="2">SJF</md-radio-button>
+								<md-radio-button value="3">LJF</md-radio-button>
+							</md-radio-group>
+						</div>
+						<div flex="33">
+							<h3>DataCenters</h3>
+							<fieldset class="demo-fieldset">
+								<div layout="row" layout-wrap flex>
+									<div flex-xs flex="50">
+										<md-checkbox aria-label="Select All"
+													 ng-checked="isChecked()"
+													 md-indeterminate="isIndeterminate()"
+													 ng-click="toggleAll()">
+											<span ng-if="isChecked()">Un-</span>Select All
+										</md-checkbox>
+									</div>
+									<div class="demo-select-all-checkboxes" flex="100" ng-repeat="item in items">
+										<md-checkbox ng-checked="exists(item, selected)" ng-click="toggle(item, selected)">
+											{{ item }}
+										</md-checkbox>
+									</div>
+								</div>
+							</fieldset>
+						</div>
+						<br />
+					</div>
+					<div layout="row">
+						<md-button type="button" class="md-raised md-primary" ng-click="vm.RunCloudSimulationwithData(vm.Tuple, vm.PolicyType, ctrl.animationType, selected)"
+								   title="Simulate Cloud with Random Queue"
+								   value="Simulate Cloud with Random Queue" ng-disabled="cloudForm.$invalid && TupleForm.$invalid">Simulate Cloud with Random Queue</md-button>
+						@*<md-button type="button" class="md-raised md-primary" ng-click="vm.RunCloudSimulationwithData(vm.Tuple, vm.FCFS, ctrl.animationType, selected)"
+							title="Simulate Cloud for First Come First Serve"
+							value="Simulate Cloud for First Come First Serve"
+							ng-disabled="cloudForm.$invalid && TupleForm.$invalid">Simulate Cloud for First Come First Serve</md-button>*@
+					</div>
+				</md-content>
+			</md-tab>
+
+			<md-tab label="Edge">
+				<md-content class="md-padding">
+					<div layout="row">
+						<div flex="20">
+							<table>
+								<tr>
+									<td>
+										<form novalidate class="simple-form" name="EdgeForm">
+											<h3>Edge Devices</h3>
+											<md-radio-group ng-model="ctrl.EdgeType" ng-init="ctrl.EdgeType = 1">
+												<md-radio-button value="0">Homogenious Edge</md-radio-button>
+												<md-radio-button value="1">Hetrogenious Edge</md-radio-button>
+											</md-radio-group>
+											<table>
+												<tr>
+													<td><input type="text" ng-model="vm.EdgeServer.FogDevice.Name" placeholder="Name" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.EdgeServer.FogDevice.DownBW" ng-disabled="ctrl.EdgeType == 1" placeholder="Down Bandwidth" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.EdgeServer.FogDevice.UpBW" ng-disabled="ctrl.EdgeType == 1 " placeholder="Up Bandwidth" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.EdgeServer.FogDevice.MIPS" ng-disabled="ctrl.EdgeType == 1" placeholder="MIPS" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.EdgeServer.FogDevice.NumberOfPes" ng-disabled="ctrl.EdgeType == 1" placeholder="NumberOfPes" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.EdgeServer.FogDevice.RAM" ng-disabled="ctrl.EdgeType == 1" placeholder="RAM" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.EdgeServer.FogDevice.Size" ng-disabled="ctrl.EdgeType == 1" placeholder="Size" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.EdgeServer.FogDevice.Storage" ng-disabled="ctrl.EdgeType == 1 " placeholder="Storage" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.EdgeServer.FogSize" placeholder="Number Of Edge Devices" required /></td>
+												</tr>
+											</table>
+										</form>
+										<input type="button" ng-click="vm.resetEdge()" value="Reset" />
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div flex="20">
+							<table>
+								<tr>
+									<td>
+										<form novalidate class="simple-form" name="EdgeTupleForm">
+											<h3>Tuple</h3>
+											<table>
+												<tr>
+													<td><input type="text" ng-model="vm.Tuple.TupleData.Name" placeholder="Name" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.BW" ng-disabled="ctrl.EdgeType == 1" placeholder="Bandwidth" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.MIPS" ng-disabled="ctrl.EdgeType == 1" placeholder="MIPS" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.NumberOfPes" ng-disabled="ctrl.EdgeType == 1" placeholder="Number od Processors" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.TupleDataRAM" ng-disabled="ctrl.EdgeType == 1" placeholder="RAM" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleData.Size" ng-disabled="ctrl.EdgeType == 1" placeholder="Size" required /></td>
+												</tr>
+												<tr>
+													<td><input type="number" ng-model="vm.Tuple.TupleSize" placeholder="Number Of Tuples" required /></td>
+												</tr>
+												<tr><td style="visibility:hidden"><input ng-model="vm.FCFS" type="text" /></td></tr>
+												<tr><td style="visibility:hidden">sds</td></tr>
+											</table>
+										</form>
+										<input type="button" ng-click="vm.resetETuple()" value="Reset" />
+									</td>
+								</tr>
+							</table>
+						</div>
+						<div flex="20">
+							<h3>Simulation Type</h3>
+							<md-radio-group ng-model="ctrl.animationTypeEdge" ng-init="ctrl.animationTypeEdge = 0">
+								<md-radio-button value="0">Edge</md-radio-button>
+								<md-radio-button value="1">Edge and Fog</md-radio-button>
+							</md-radio-group>
+
+							<br /><br />
+							<h3>Policy Types</h3>
+							<md-radio-group ng-model="vm.EPolicyType" ng-init="vm.EPolicyType = 0">
+								<md-radio-button value="0">Random</md-radio-button>
+								<md-radio-button value="1">FCFS</md-radio-button>
+								<md-radio-button value="2">SJF</md-radio-button>
+								<md-radio-button value="3">LJF</md-radio-button>
+								<md-radio-button value="4" ng-show="ctrl.animationTypeEdge == 1">LBFC</md-radio-button>
+							</md-radio-group>
+						</div>
+
+						<div flex="20" ng-show="ctrl.animationTypeEdge == 1">
+							<h3>Cooperation</h3>
+							<md-radio-group ng-model="vm.ECooperation">
+								<md-radio-button value="0">Cooperation</md-radio-button>
+								<md-radio-button value="1">Without Cooperation</md-radio-button>
+							</md-radio-group>
+						</div>
+					</div>
+					<br />
+					<div layout="row">
+						<div class="col-lg-5 padding">
+							<md-button type="button" style="float:left;" class="md-raised md-primary" ng-click="vm.RunEdgeSimulation(vm.EdgeServer, vm.Tuple, vm.EPolicyType, ctrl.animationTypeEdge, ctrl.ECloufServiceForFog, selected, vm.Gateway, vm.ECooperation,ctrl.EdgeType)"
+									   title="Simulate Edge" value="Simulate Edge" ng-disabled="ctrl.EDataSet == 1">Simulate Edge</md-button>
+						</div>
+						<div class="col-lg-6" style="float:right;border:1px solid #dddddd;padding:0px;">
+							<form style="padding: 5px;margin: 5px;">
+								<div class="form-check">
+									<md-radio-group ng-model="ctrl.EDataSet" ng-init="ctrl.EDataSet = 0">
+										<md-radio-button value="0" class="col-lg-5 padding-5">Load DataSet</md-radio-button>
+										<md-radio-button value="1" class="col-lg-5 padding-5">Create DataSet</md-radio-button>
+									</md-radio-group>
+								</div>
+								<button type="submit" class="btn btn-primary" ng-disabled="ctrl.EDataSet == 0" ng-click="vm.RunEdgeCreateData(vm.EdgeServer, vm.Tuple, vm.EPolicyType, ctrl.animationTypeEdge, ctrl.ECloufServiceForFog, selected, vm.Gateway, vm.ECooperation,ctrl.EdgeType)">Create</button>
+								<div id="EfloatBarsG" hidden>
+									<div id="EfloatBarsG_1" class="EfloatBarsG"></div>
+									<div id="EfloatBarsG_2" class="EfloatBarsG"></div>
+									<div id="EfloatBarsG_3" class="EfloatBarsG"></div>
+									<div id="EfloatBarsG_4" class="EfloatBarsG"></div>
+									<div id="EfloatBarsG_5" class="EfloatBarsG"></div>
+									<div id="EfloatBarsG_6" class="EfloatBarsG"></div>
+									<div id="EfloatBarsG_7" class="EfloatBarsG"></div>
+									<div id="EfloatBarsG_8" class="EfloatBarsG"></div>
+								</div>
+							</form>
+							<div id="EdivError" class="error"></div>
+						</div>
+
+					</div>
+
+				</md-content>
+
+			</md-tab>
+			<md-tab label="Documentation">
+				<md-content class="md-padding">
+					<label>SFog mainly contributes in following ways</label>
+					<md-list>
+						<md-list-item>Geographical location based simulation</md-list-item>
+						<md-list-item>Server to Server communication</md-list-item>
+						<md-list-item>Implements the algorithm of first come first server</md-list-item>
+						<md-list-item>Implements the algorithm of random queue</md-list-item>
+					</md-list>
+				</md-content>
+			</md-tab>
+		</md-tabs>
+	</md-content>
+</div>
